@@ -33,6 +33,11 @@ namespace FluentStorage.AWS.Blobs {
 		Task<string> GetPresignedUrlAsync(string fullPath, string mimeType, int expiresInSeconds, HttpVerb verb);
 
 		/// <summary>
+		/// Get presigned url for requested operation with Blob Storage.
+		/// </summary>
+		Task<string> GetPresignedUrlAsync(string fullPath, string mimeType, int expiresInSeconds, HttpVerb verb, Protocol protocol);
+
+		/// <summary>
 		/// Set acl for object.
 		/// </summary>
 		/// <param name="fullPath"></param>

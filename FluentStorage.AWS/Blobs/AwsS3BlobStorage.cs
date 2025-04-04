@@ -326,6 +326,13 @@ namespace FluentStorage.AWS.Blobs {
 		/// Get presigned url for requested operation with Blob Storage.
 		/// </summary>
 		public async Task<string> GetPresignedUrlAsync(string fullPath, string mimeType, int expiresInSeconds, HttpVerb verb) {
+			return await GetPresignedUrlAsync(fullPath, mimeType, expiresInSeconds, verb, default).ConfigureAwait(false);
+		}
+
+		/// <summary>
+		/// Get presigned url for requested operation with Blob Storage.
+		/// </summary>
+		public async Task<string> GetPresignedUrlAsync(string fullPath, string mimeType, int expiresInSeconds, HttpVerb verb, Protocol protocol) {
 			IAmazonS3 client = await GetClientAsync().ConfigureAwait(false);
 
 			return client.GetPreSignedURL(new GetPreSignedUrlRequest() {
@@ -333,6 +340,7 @@ namespace FluentStorage.AWS.Blobs {
 				ContentType = mimeType,
 				Expires = DateTime.UtcNow.AddSeconds(expiresInSeconds),
 				Key = StoragePath.Normalize(fullPath, true),
+				Protocol = protocol,
 				Verb = verb,
 			});
 		}
