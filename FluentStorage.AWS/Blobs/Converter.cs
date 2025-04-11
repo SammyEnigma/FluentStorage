@@ -24,6 +24,7 @@ namespace FluentStorage.AWS.Blobs {
 				DestinationBucket = bucketName,
 				SourceKey = key,
 				DestinationKey = key,
+				ContentType = (string)blob.Properties["ContentType"],
 				MetadataDirective = S3MetadataDirective.REPLACE
 			};
 
