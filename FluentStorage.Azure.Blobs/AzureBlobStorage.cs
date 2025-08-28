@@ -14,6 +14,7 @@ using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
 using Blobs;
 using Microsoft.Identity.Client;
+using Microsoft.AspNetCore.StaticFiles;
 using FluentStorage.Blobs;
 using FluentStorage.Azure.Blobs.Gen2.Model;
 
@@ -28,6 +29,8 @@ namespace FluentStorage.Azure.Blobs {
 		private readonly string _containerName;
 		private readonly ConcurrentDictionary<string, BlobContainerClient> _containerNameToContainerClient =
 		   new ConcurrentDictionary<string, BlobContainerClient>();
+		private static readonly FileExtensionContentTypeProvider _mime =
+		   new FileExtensionContentTypeProvider();
 
 		public AzureBlobStorage(
 		   BlobServiceClient blobServiceClient,
@@ -129,9 +132,19 @@ namespace FluentStorage.Azure.Blobs {
 
 			BlockBlobClient client = container.GetBlockBlobClient(path);
 
+			string contentType;
+			if (!_mime.TryGetContentType(path, out contentType)) {
+				contentType = "application/octet-stream";
+			}
 			try {
+				var options = new BlobUploadOptions {
+					HttpHeaders = new BlobHttpHeaders {
+						ContentType = contentType
+					}
+				};
 				await client.UploadAsync(
 				   new StorageSourceStream(dataStream),
+				   options: options,
 				   cancellationToken: cancellationToken).ConfigureAwait(false);
 			}
 			catch (RequestFailedException ex) when (ex.ErrorCode == "OperationNotAllowedInCurrentState") {
