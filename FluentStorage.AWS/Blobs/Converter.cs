@@ -57,7 +57,7 @@ namespace FluentStorage.AWS.Blobs {
 			var r = new Blob(fullPath);
 			r.MD5 = obj.ETag.Trim('\"'); //ETag contains actual MD5 hash, not sure why!
 			r.Size = obj.ContentLength;
-			r.LastModificationTime = obj.LastModified.ToUniversalTime();
+			r.LastModificationTime = obj.LastModified.Value.ToUniversalTime();
 			
 			AddMetadata(r, obj);
 
@@ -94,7 +94,7 @@ namespace FluentStorage.AWS.Blobs {
 
 			blob.Size = s3Obj.Size;
 			blob.MD5 = s3Obj.ETag.Trim('\"');
-			blob.LastModificationTime = s3Obj.LastModified.ToUniversalTime();
+			blob.LastModificationTime = s3Obj.LastModified.Value.ToUniversalTime();
 			blob.Properties["StorageClass"] = s3Obj.StorageClass;
 			blob.Properties["ETag"] = s3Obj.ETag;
 
