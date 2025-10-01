@@ -335,7 +335,7 @@ namespace FluentStorage.AWS.Blobs {
 		public async Task<string> GetPresignedUrlAsync(string fullPath, string mimeType, int expiresInSeconds, HttpVerb verb, Protocol protocol) {
 			IAmazonS3 client = await GetClientAsync().ConfigureAwait(false);
 
-			return client.GetPreSignedURL(new GetPreSignedUrlRequest() {
+			return await client.GetPreSignedURLAsync(new GetPreSignedUrlRequest() {
 				BucketName = _bucketName,
 				ContentType = mimeType,
 				Expires = DateTime.UtcNow.AddSeconds(expiresInSeconds),
@@ -360,11 +360,11 @@ namespace FluentStorage.AWS.Blobs {
 				throw new ArgumentException($"don't know '{acl}' acl", acl);
 			}
 
-			await client.PutACLAsync(new PutACLRequest
+			await client.PutObjectAclAsync(new PutObjectAclRequest
 			{
 				BucketName = _bucketName,
 				Key = StoragePath.Normalize(fullPath, true),
-				CannedACL = s3CannedAcl
+				ACL = s3CannedAcl
 			});
 		}
 	}
