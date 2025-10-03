@@ -187,7 +187,7 @@ FluentStorage has received major sponsorship from these generous organizations:
 <tr>
 	<td width="200px">
 		<a href="https://www.microsoft.com/">
-		<img src="https://github.com/robinrodricks/FluentStorage/raw/master/.github/microsoft-logo.png" /> Microsoft Corporation
+		<img src="https://raw.githubusercontent.com/robinrodricks/FluentStorage/refs/heads/develop/.github/microsoft-logo.png" /> Microsoft Corporation
 		</a>
 	</td>
 </tr>
