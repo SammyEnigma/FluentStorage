@@ -25,7 +25,7 @@ namespace FluentStorage.AWS.Blobs {
 			var container = new List<Blob>();
 
 			_limiter = new AsyncLimiter(options.NumberOfRecursionThreads ?? ListOptions.MAX_THREADS);
-			
+
 			await ListFolderAsync(container, options.FolderPath, options, cancellationToken).ConfigureAwait(false);
 
 			return options.MaxResults == null
@@ -57,10 +57,13 @@ namespace FluentStorage.AWS.Blobs {
 					response = await _client.ListObjectsV2Async(request, cancellationToken).ConfigureAwait(false);
 				}
 
-				folderContainer.AddRange(response.ToBlobs(options));
+				if (response != null) {
+					folderContainer.AddRange(response.ToBlobs(options));
+				}
 
-				if (response.NextContinuationToken == null)
+				if (response.NextContinuationToken == null) {
 					break;
+				}
 
 				request.ContinuationToken = response.NextContinuationToken;
 			}
