@@ -1,5 +1,9 @@
 ﻿# Release Notes
 
+#### FluentStorage 6.0.1
+ - **FluentStorage.AWS**
+   - Fix: Null Exception at `ListAsync`
+
 #### FluentStorage 6.0.0
 
  - **FluentStorage**
