@@ -1,10 +1,8 @@
-﻿using System;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Azure.Core;
+﻿using Azure.Identity;
 using Azure.Storage.Blobs;
 using FluentStorage.Azure.Blobs;
+using System;
+using System.Reflection;
 using Xunit;
 
 namespace FluentStorage.Tests.Integration.Util {
@@ -19,7 +17,7 @@ namespace FluentStorage.Tests.Integration.Util {
 		[InlineData(AzureCloudEnvironment.Germany)]
 		public void Blob_Factory_methods_use_correct_cloud_endpoint(AzureCloudEnvironment environment) {
 			var endpoint = AzureCloudEndpoints.GetBlobEndpoint(environment);
-
+			var authorityHost = AzureCloudEndpoints.GetAuthorityEndpoint(environment);
 			var expectedHost = $"{Account}.blob.{endpoint}";
 
 			// Use a valid base64 key so StorageSharedKeyCredential does not throw
@@ -31,7 +29,8 @@ namespace FluentStorage.Tests.Integration.Util {
 			Assert.Equal(expectedHost, client.Uri.Host);
 
 			// Token credential
-			var tokenCred = new TestTokenCredential();
+			var tokenCred = new ClientSecretCredential("test-tenant", "test-application", "test-secret", new TokenCredentialOptions { AuthorityHost = authorityHost });
+
 			IAzureBlobStorage blobToken = StorageFactory.Blobs.AzureBlobStorageWithTokenCredential(Account, tokenCred, environment);
 			var client2 = GetBlobServiceClient(blobToken);
 			Assert.Equal(expectedHost, client2.Uri.Host);
@@ -66,16 +65,6 @@ namespace FluentStorage.Tests.Integration.Util {
 			}
 
 			return client;
-		}
-
-		private class TestTokenCredential : TokenCredential {
-			public override AccessToken GetToken(TokenRequestContext requestContext, CancellationToken cancellationToken) {
-				return new AccessToken("fake", DateTimeOffset.UtcNow.AddHours(1));
-			}
-
-			public override ValueTask<AccessToken> GetTokenAsync(TokenRequestContext requestContext, CancellationToken cancellationToken) {
-				return new ValueTask<AccessToken>(new AccessToken("fake", DateTimeOffset.UtcNow.AddHours(1)));
-			}
 		}
 	}
 }
