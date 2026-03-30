@@ -23,10 +23,19 @@ namespace FluentStorage {
 		/// Creates Azure Blob Storage from an existing <see cref="BlobServiceClient"/>.
 		/// </summary>
 		public static IAzureBlobStorage AzureBlobStorage(this IBlobStorageFactory factory,
+		   BlobServiceClient blobServiceClient) {
+			return AzureBlobStorage(factory, blobServiceClient, null);
+		}
+
+		/// <summary>
+		/// Creates Azure Blob Storage from an existing <see cref="BlobServiceClient"/>.
+		/// </summary>
+		public static IAzureBlobStorage AzureBlobStorage(this IBlobStorageFactory factory,
 		   BlobServiceClient blobServiceClient,
-		   string containerName = null) {
-			if (blobServiceClient is null)
+		   string containerName) {
+			if (blobServiceClient is null) {
 				throw new ArgumentNullException(nameof(blobServiceClient));
+			}
 
 			return new AzureBlobStorage(blobServiceClient, blobServiceClient.AccountName, containerName: containerName);
 		}
