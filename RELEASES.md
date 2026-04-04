@@ -1,5 +1,19 @@
 ﻿# Release Notes
 
+#### FluentStorage 6.0.3
+ - **FluentStorage.FTP**
+   - Fix: Update FluentFTP to latest version 54.1.0
+ - **FluentStorage.SFTP**
+   - Fix: Update SSH.NET to latest version 2025.1.0
+   - New: `SetLengthOnNewStream` setting to enable/disable calling `SetLength()` on `SftpStream` when writing new blobs
+   - Fix:`OpenReadAsync` for fix issues when creating remote files where the user lacks permissions to set file attributes
+ - **FluentStorage.AWS**
+   - Use the `DeleteObjects` S3 API to optimize recursive deletes by using a single request
+ - **FluentStorage.Azure.Blobs**
+   - New: Add `AzureBlobStorage` factory method accepting `BlobServiceClient`
+ - **FluentStorage.GCP**
+   - Fix: Make `cred` param optional in `google.storage://` connection strings, falling back to Application Default Credentials
+
 #### FluentStorage 6.0.2
  - **FluentStorage.FTP**
    - Fixed logic in `Dispose` method that prevented the FTP client from being disposed

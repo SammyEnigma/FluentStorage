@@ -9,8 +9,8 @@
       <Copyright>Copyright (c) 2023 Robin Rodricks and FluentStorage Contributors</Copyright>
       <GenerateDocumentationFile>true</GenerateDocumentationFile>
       <PackageIcon>logo-nuget.png</PackageIcon>
-      <Authors>Robin Rodricks, Ivan Gavryliuk, FluentStorage Contributors</Authors>
-       <Version>6.0.2</Version>
+      <Authors>Robin Rodricks, FluentStorage Contributors</Authors>
+       <Version>6.0.3</Version>
       <PackageProjectUrl>https://github.com/robinrodricks/FluentStorage</PackageProjectUrl>
       <RepositoryUrl>https://github.com/robinrodricks/FluentStorage</RepositoryUrl>
       <RepositoryType>GitHub</RepositoryType>
@@ -24,7 +24,7 @@
    </PropertyGroup>
 
    <ItemGroup>
-      <PackageReference Include="FluentFTP" Version="53.0.2" />
+      <PackageReference Include="FluentFTP" Version="54.1.0" />
       <PackageReference Include="Polly" Version="8.4.0" />
    </ItemGroup>
 
