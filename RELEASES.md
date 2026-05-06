@@ -1,5 +1,14 @@
 ﻿# Release Notes
 
+#### FluentStorage 6.0.4
+ - **FluentStorage**
+   - Fix: Potential fix for unseekable streams at `StorageSourceStream.Seek`
+ - **FluentStorage.Azure.Blobs**
+   - New: Sets `Content-Type` header on Azure blob uploads based on file extension to ensure proper browser rendering of files
+   - New: Detects MIME type from blob path using `MimeUtility` from the `MimeMapping` Nuget package
+   - New: Automatically defaults to `application/octet-stream` for unknown extensions
+   - New: Sets `Content-Type` of the blob via `BlobUploadOptions` with `BlobHttpHeaders` during upload
+
 #### FluentStorage 6.0.3
  - **FluentStorage.FTP**
    - Fix: Update FluentFTP to latest version 54.1.0
